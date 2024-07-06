@@ -1,4 +1,4 @@
-from config.config import POLICY_CONFIG, TASK_CONFIG, TRAIN_CONFIG, ROBOT_PORTS # must import first
+from config.config import MOTOR_VENDER, POLICY_CONFIG, TASK_CONFIG, TRAIN_CONFIG, ROBOT_PORTS # must import first
 
 import os
 import cv2
@@ -6,10 +6,8 @@ import torch
 import pickle
 import argparse
 from time import time
-
-from robot import Robot
-from robot_ft import Robot as RobotFT
 from training.utils import *
+from util import get_robot_cls
 
 
 # parse the task name via command line
@@ -62,8 +60,10 @@ if __name__ == "__main__":
     # Check if the camera opened successfully
     if not cam.isOpened():
         raise IOError("Cannot open camera")
+
     # init follower
-    follower = RobotFT(device_name=ROBOT_PORTS['follower'], servo_ids=[1,2,3,4,5,6])
+    follower = get_robot_cls(MOTOR_VENDER['follower'])(device_name=ROBOT_PORTS['follower'], servo_ids=[1,2,3,4,5,6])
+
 
     # load the policy
     ckpt_path = os.path.join(train_cfg['checkpoint_dir'], task, train_cfg['eval_ckpt_name'])

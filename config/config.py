@@ -19,8 +19,8 @@ os.environ['DEVICE'] = device
 ROBOT_PORTS = {
     # 'leader': '/dev/ttyACM0',
     # 'follower': '/dev/ttyUSB0'
-    'leader': 'COM7',
-    'follower': 'COM6'
+    'leader': 'COM9',
+    'follower': 'COM8'
 
 }
 
@@ -33,7 +33,7 @@ MOTOR_VENDER = {
 # task config (you can add new tasks)
 TASK_CONFIG = {
     'dataset_dir': DATA_DIR,
-    'episode_len': 250,
+    'episode_len': 25000,
     'state_dim': 6,
     'action_dim': 6,
     'cam_width': 640,
@@ -41,6 +41,8 @@ TASK_CONFIG = {
     'camera_names': ['front'],
     'camera_port': 0
 }
+
+POS_BIAS = [-8, 93, 198, 431, 66, 1009]
 
 
 # policy config

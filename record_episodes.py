@@ -1,5 +1,5 @@
 from typing import List
-from config.config import TASK_CONFIG, ROBOT_PORTS, MOTOR_VENDER
+from config.config import TASK_CONFIG, ROBOT_PORTS, MOTOR_VENDER, POS_BIAS
 import os
 import cv2
 import h5py
@@ -11,6 +11,8 @@ from training.utils import pwm2pos, pwm2vel
 import numpy as np
 
 import importlib
+
+from util import get_robot_cls
 
 # parse the task name via command line
 parser = argparse.ArgumentParser()
@@ -57,12 +59,6 @@ def follow_leader_pos(leader_bot: RobotABC, follow_bot: RobotABC, bias: np.array
     return action
 
 
-def get_robot_cls(vender):
-    
-    module = importlib.import_module(f"interface.{vender}.robot")
-    
-    return getattr(module, "Robot")
-
 
 if __name__ == "__main__":
     # init follower
@@ -71,8 +67,8 @@ if __name__ == "__main__":
     leader = get_robot_cls(MOTOR_VENDER['follower'])(device_name=ROBOT_PORTS['leader'], servo_ids=[1,2,3,4,5,6])
     # get bias
     # get_bias();exit()
-    
-    bias = np.array([-8, 93, 198, 431, 66, 1009])
+    # TODO 需要自定义
+    bias = np.array(POS_BIAS)
     # init camera
     cam = cv2.VideoCapture(cfg['camera_port'])
     # Check if the camera opened successfully
