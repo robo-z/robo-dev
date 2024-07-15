@@ -46,6 +46,8 @@ TASK_CONFIG = {
 POS_BIAS = [-91, 40, -51, 457, -284, 750]
 
 
+POLICY_CLASS = "Diffusion"
+
 # policy config
 POLICY_CONFIG = {
     'lr': 1e-5,
@@ -61,9 +63,20 @@ POLICY_CONFIG = {
     'nheads': 8,
     # 'camera_names': ['right', 'front'],
     'camera_names': ['front'],
-    'policy_class': 'ACT',
-    'temporal_agg': False
+    'policy_class': POLICY_CLASS,
+    'temporal_agg': False,
+
+    # diffusion
+    'action_dim': 6,
+    'observation_horizon': 1,
+    'action_horizon': 8,
+    'prediction_horizon': 100,
+    'num_inference_timesteps': 10,
+    'ema_power': 0.75,
+    'vq': False,
 }
+
+
 
 # training config
 TRAIN_CONFIG = {
