@@ -1,11 +1,14 @@
 
+import sys,os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from interface.feetech.robot import Robot as RobotFT
 
 
 
 # init robots
 leader = RobotFT(device_name="COM7", servo_ids=[1,2,3,4,5,6])
-follower = RobotFT(device_name="COM6", servo_ids=[1,2,3,4,5,6])
+follower = RobotFT(device_name="COM10", servo_ids=[1,2,3,4,5,6])
 
 
 def get_bias():

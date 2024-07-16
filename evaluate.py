@@ -56,10 +56,18 @@ def capture_image(cam):
 
 if __name__ == "__main__":
     # init camera
-    cam = cv2.VideoCapture(cfg['camera_port'])
+    # init camera
+    if not isinstance(cfg['camera_port'], list):
+        cam = cv2.VideoCapture(cfg['camera_port'])
+    else:
+        cam = [cv2.VideoCapture(port) for port in cfg['camera_port']]
+
     # Check if the camera opened successfully
-    if not cam.isOpened():
-        raise IOError("Cannot open camera")
+    if not isinstance(cam, list):
+        cam = [cam]
+    for c in cam:
+        if not c.isOpened():
+            raise IOError("Cannot open camera")
 
     # init follower
     follower = get_robot_cls(MOTOR_VENDER['follower'])(device_name=ROBOT_PORTS['follower'], servo_ids=[1,2,3,4,5,6])
@@ -89,12 +97,13 @@ if __name__ == "__main__":
     # bring the follower to the leader
     for i in range(90):
         follower.read_position()
-        _ = capture_image(cam)
+        _ = [capture_image(c) for c in cam]
     
+    image = [capture_image(c) for c in cam]
     obs = {
         'qpos': pwm2pos(follower.read_position()),
         'qvel': vel2pwm(follower.read_velocity()),
-        'images': {cn: capture_image(cam) for cn in cfg['camera_names']}
+        'images': {cn : img for cn, img in zip(cfg['camera_names'], image)}
     }
     os.system('say "start"')
 
@@ -136,12 +145,12 @@ if __name__ == "__main__":
                 action = pos2pwm(action).astype(int)
                 ### take action
                 follower.set_goal_pos(action)
-
+                image = [capture_image(c) for c in cam]
                 ### update obs
                 obs = {
                     'qpos': pwm2pos(follower.read_position()),
                     'qvel': vel2pwm(follower.read_velocity()),
-                    'images': {cn: capture_image(cam) for cn in cfg['camera_names']}
+                    'images': {cn : img for cn, img in zip(cfg['camera_names'], image)}
                 }
                 ### store data
                 obs_replay.append(obs)

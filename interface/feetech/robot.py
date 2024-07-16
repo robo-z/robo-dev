@@ -63,6 +63,8 @@ class Robot(RobotABC):
 
     def read_position(self, tries=2):
         positions, speeds, movings = self.read_data(tries=tries)
+        if len(positions) != len(self.servo_ids):
+            raise ValueError("位置数据读取错误")
         return positions
     
     def read_velocity(self, tries=2):

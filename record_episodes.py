@@ -70,17 +70,24 @@ if __name__ == "__main__":
     # TODO 需要自定义
     bias = np.array(POS_BIAS)
     # init camera
-    cam = cv2.VideoCapture(cfg['camera_port'])
+    if not isinstance(cfg['camera_port'], list):
+        cam = cv2.VideoCapture(cfg['camera_port'])
+    else:
+        cam = [cv2.VideoCapture(port) for port in cfg['camera_port']]
+
     # Check if the camera opened successfully
-    if not cam.isOpened():
-        raise IOError("Cannot open camera")
+    if not isinstance(cam, list):
+        cam = [cam]
+    for c in cam:
+        if not c.isOpened():
+            raise IOError("Cannot open camera")
     leader.set_trigger_torque(value=200)
     
     for i in range(num_episodes):
         # bring the follower to the leader and start camera
         for i in range(100):
             follow_leader_pos(leader, follower, bias)
-            _ = capture_image(cam)
+            _ = [capture_image(c) for c in cam]
         os.system('say "go"')
         # init buffers
         obs_replay = []
@@ -96,12 +103,12 @@ if __name__ == "__main__":
                 qvel = follower.read_velocity()
             print("[debug]-qpos", qpos)
             stt = monotonic()
-            image = capture_image(cam)
+            image = [capture_image(c) for c in cam]
             print(f"capture_image time: {monotonic() - stt}")
             obs = {
                 'qpos': pwm2pos(qpos),
                 'qvel': pwm2vel(qvel),
-                'images': {cn : image for cn in cfg['camera_names']}
+                'images': {cn : img for cn, img in zip(cfg['camera_names'], image)}
             }
             # action (leader's position), apply action
             stt = monotonic()

@@ -1,4 +1,8 @@
 import numpy as np
+
+import sys,os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from interface.dynamixel.robot import Robot
 from interface.feetech.robot import Robot as RobotFT
 
@@ -16,16 +20,22 @@ follower = RobotFT(device_name="COM6", servo_ids=[1,2,3,4,5,6])
 
 leader.set_trigger_torque(value=500)
 # leader._disable_torque()
-bias = np.array([-8, 93, 198, 431, 66, 1009])
+bias = np.array([100, 40, 100, 457, -284, 750])
 
 while True:
     # print(leader.read_position()-bias)
-    action = leader.read_position()-bias
-    print(action)
+    try:
+        raw_posistion = leader.read_position()
+    except:
+        continue
+    
+    print(f"RAW: {raw_posistion}")
+    action = raw_posistion-bias
+    print(f"After Bias: {action}")
     follower.set_goal_pos(action)
 
 leader._disable_torque()
-#follower._disable_torque()
+follower._disable_torque()
 
 
 

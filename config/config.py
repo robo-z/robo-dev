@@ -19,8 +19,8 @@ os.environ['DEVICE'] = device
 ROBOT_PORTS = {
     # 'leader': '/dev/ttyACM0',
     # 'follower': '/dev/ttyUSB0'
-    'leader': 'COM9',
-    'follower': 'COM8'
+    'leader': 'COM7',
+    'follower': 'COM6'
 
 }
 
@@ -33,16 +33,17 @@ MOTOR_VENDER = {
 # task config (you can add new tasks)
 TASK_CONFIG = {
     'dataset_dir': DATA_DIR,
-    'episode_len': 25000,
+    'episode_len': 20000,
     'state_dim': 6,
     'action_dim': 6,
     'cam_width': 640,
     'cam_height': 480,
+    # 'camera_names': ['right', 'front'],
     'camera_names': ['front'],
-    'camera_port': 0
+    'camera_port': [0, 2]
 }
 
-POS_BIAS = [-8, 93, 198, 431, 66, 1009]
+POS_BIAS = [-91, 40, -51, 457, -284, 750]
 
 
 # policy config
@@ -58,6 +59,7 @@ POLICY_CONFIG = {
     'enc_layers': 4,
     'dec_layers': 7,
     'nheads': 8,
+    # 'camera_names': ['right', 'front'],
     'camera_names': ['front'],
     'policy_class': 'ACT',
     'temporal_agg': False
@@ -67,9 +69,9 @@ POLICY_CONFIG = {
 TRAIN_CONFIG = {
     'seed': 42,
     'num_epochs': 4000,
-    'batch_size_val': 8,
-    'batch_size_train': 8,
-    # 'eval_ckpt_name': 'policy_epoch_3200_seed_42.ckpt',
-    'eval_ckpt_name': 'policy_last.ckpt',
+    'batch_size_val': 16,
+    'batch_size_train': 16,
+    'eval_ckpt_name': 'policy_epoch_4000_seed_42.ckpt',
+    # 'eval_ckpt_name': 'policy_last.ckpt',
     'checkpoint_dir': CHECKPOINT_DIR
 }
