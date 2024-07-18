@@ -8,11 +8,11 @@ from interface.feetech.robot import Robot as RobotFT
 
 
 # init robots
-leader = RobotFT(device_name="COM7", servo_ids=[1,2,3,4,5,6])
-follower = RobotFT(device_name="COM6", servo_ids=[1,2,3,4,5,6])
+# leader = RobotFT(device_name="COM7", servo_ids=[1,2,3,4,5,6])
+# follower = RobotFT(device_name="COM6", servo_ids=[1,2,3,4,5,6])
 
-# leader = Robot(device_name="/dev/ttyACM0", servo_ids=[1,2,3,4,5,6])
-# follower = RobotFT(device_name="/dev/ttyUSB0", servo_ids=[1,2,3,4,5,6])
+leader = RobotFT(device_name="/dev/ttyUSB1", servo_ids=[1,2,3,4,5,6])
+follower = RobotFT(device_name="/dev/ttyUSB0", servo_ids=[1,2,3,4,5,6])
 
 # activate the leader gripper torque
 
@@ -22,7 +22,7 @@ leader.set_trigger_torque(value=500)
 # leader._disable_torque()
 bias = np.array([100, 40, 100, 457, -284, 750])
 
-while True:
+while 1:
     # print(leader.read_position()-bias)
     try:
         raw_posistion = leader.read_position()
@@ -34,8 +34,7 @@ while True:
     print(f"After Bias: {action}")
     follower.set_goal_pos(action)
 
-leader._disable_torque()
-follower._disable_torque()
+
 
 
 

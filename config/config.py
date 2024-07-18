@@ -17,10 +17,10 @@ os.environ['DEVICE'] = device
 
 # robot port names
 ROBOT_PORTS = {
-    # 'leader': '/dev/ttyACM0',
-    # 'follower': '/dev/ttyUSB0'
-    'leader': 'COM7',
-    'follower': 'COM6'
+    'leader': '/dev/ttyUSB1',
+    'follower': '/dev/ttyUSB0'
+    # 'leader': 'COM7',
+    # 'follower': 'COM6'
 
 }
 
@@ -39,14 +39,16 @@ TASK_CONFIG = {
     'cam_width': 640,
     'cam_height': 480,
     # 'camera_names': ['right', 'front'],
-    'camera_names': ['front'],
-    'camera_port': [0, 2]
+    'camera_names': ['front', 'wist'],
+    #'camera_names': ['front'],
+    'camera_port': [1]
 }
 
 POS_BIAS = [-91, 40, -51, 457, -284, 750]
 
 
-POLICY_CLASS = "Diffusion"
+# POLICY_CLASS = "Diffusion"
+POLICY_CLASS = "ACT"
 
 # policy config
 POLICY_CONFIG = {
@@ -62,7 +64,7 @@ POLICY_CONFIG = {
     'dec_layers': 7,
     'nheads': 8,
     # 'camera_names': ['right', 'front'],
-    'camera_names': ['front'],
+    'camera_names': ['front', 'wist'],
     'policy_class': POLICY_CLASS,
     'temporal_agg': False,
 
@@ -84,7 +86,7 @@ TRAIN_CONFIG = {
     'num_epochs': 4000,
     'batch_size_val': 16,
     'batch_size_train': 16,
-    'eval_ckpt_name': 'policy_epoch_4000_seed_42.ckpt',
+    'eval_ckpt_name': 'policy_epoch_2000_seed_42.ckpt',
     # 'eval_ckpt_name': 'policy_last.ckpt',
     'checkpoint_dir': CHECKPOINT_DIR
 }

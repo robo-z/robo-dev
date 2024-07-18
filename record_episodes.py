@@ -75,6 +75,10 @@ if __name__ == "__main__":
     else:
         cam = [cv2.VideoCapture(port) for port in cfg['camera_port']]
 
+    # for capture in cam:
+    #     capture.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+    #     capture.set(cv2.CAP_PROP_FPS, 30)
+
     # Check if the camera opened successfully
     if not isinstance(cam, list):
         cam = [cam]
