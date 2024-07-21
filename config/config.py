@@ -33,18 +33,17 @@ MOTOR_VENDER = {
 # task config (you can add new tasks)
 TASK_CONFIG = {
     'dataset_dir': DATA_DIR,
-    'episode_len': 20000,
+    'episode_len': 30000,
     'state_dim': 6,
     'action_dim': 6,
     'cam_width': 640,
     'cam_height': 480,
     # 'camera_names': ['right', 'front'],
     'camera_names': ['front', 'wist'],
-    #'camera_names': ['front'],
-    'camera_port': [1]
+    'camera_port': [0,2]
 }
 
-POS_BIAS = [-91, 40, -51, 457, -284, 750]
+POS_BIAS = [131, 157, -82, 35, 123, 750]
 
 
 # POLICY_CLASS = "Diffusion"
@@ -63,19 +62,10 @@ POLICY_CONFIG = {
     'enc_layers': 4,
     'dec_layers': 7,
     'nheads': 8,
-    # 'camera_names': ['right', 'front'],
     'camera_names': ['front', 'wist'],
-    'policy_class': POLICY_CLASS,
-    'temporal_agg': False,
-
-    # diffusion
-    'action_dim': 6,
-    'observation_horizon': 1,
-    'action_horizon': 8,
-    'prediction_horizon': 100,
-    'num_inference_timesteps': 10,
-    'ema_power': 0.75,
-    'vq': False,
+    # 'camera_names': ['front'],
+    'policy_class': 'ACT',
+    'temporal_agg': False
 }
 
 
@@ -86,7 +76,7 @@ TRAIN_CONFIG = {
     'num_epochs': 4000,
     'batch_size_val': 16,
     'batch_size_train': 16,
-    'eval_ckpt_name': 'policy_epoch_2000_seed_42.ckpt',
-    # 'eval_ckpt_name': 'policy_last.ckpt',
+    # 'eval_ckpt_name': 'policy_epoch_3200_seed_42.ckpt',
+    'eval_ckpt_name': 'policy_last.ckpt',
     'checkpoint_dir': CHECKPOINT_DIR
 }

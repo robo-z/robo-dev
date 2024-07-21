@@ -20,9 +20,9 @@ follower = RobotFT(device_name="/dev/ttyUSB0", servo_ids=[1,2,3,4,5,6])
 
 leader.set_trigger_torque(value=500)
 # leader._disable_torque()
-bias = np.array([100, 40, 100, 457, -284, 750])
+bias = np.array([131, 157, -82, 35, 123, 750])
 
-while 1:
+while 0:
     # print(leader.read_position()-bias)
     try:
         raw_posistion = leader.read_position()

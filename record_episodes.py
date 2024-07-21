@@ -37,6 +37,7 @@ def get_bias():
 
 def capture_image(cam):
     # Capture a single frame
+    stt = monotonic()
     _, frame = cam.read()
     # Generate a unique filename with the current date and time
     image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -47,7 +48,7 @@ def capture_image(cam):
     # image = image[y1:y2, x1:x2]
     # Resize the image
     image = cv2.resize(image, (cfg['cam_width'], cfg['cam_height']), interpolation=cv2.INTER_AREA)
-
+    print(f"caputure time cost: {monotonic() - stt}")
     return image
 
 

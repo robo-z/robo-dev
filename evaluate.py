@@ -144,6 +144,7 @@ if __name__ == "__main__":
                 action = post_process(raw_action)
                 action = pos2pwm(action).astype(int)
                 ### take action
+                print(action)
                 follower.set_goal_pos(action)
                 image = [capture_image(c) for c in cam]
                 ### update obs
